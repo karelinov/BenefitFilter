@@ -1,0 +1,7 @@
+// в файле через запятую: citizen_pk, uzsfo_pk, state, data
+1,1,true,1
+1,2,true,1
+1,3,true,1
+2,1,true,1
+2,2,true,1
+2,3,true,1

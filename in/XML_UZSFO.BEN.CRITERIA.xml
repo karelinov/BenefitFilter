@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<CriteriaSetList xmlns="http://erl.msr.com/schemas/uzsfo/ben.criteria"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="file:// XSD_UZSFO.BEN.CRITERIA.xsd">
+  
+<CriteriaSet target="МСП" target_id="1050031"
+   comment="Ежемесячная компенсационная выплата на возмещение расходов по оплате за жилое помещение и коммунальные услуги семьям, имеющим трех и более детей"
+>
+    <CriteriaGroup comment="">
+      <!-- Расчёты дополнительных атомов на лету -->      
+      <CriteriaSubGroup agg_operator="EXIST" data_pk="0301007_1003" comment="Наличие подтвержденной ЛК (1003), предоставляющей право на получение меры социальной поддержки*">
+        <bool data_set="ЛК" data_pk="1003" compareoperator="EQ" comparevalue="true"/>
+      </CriteriaSubGroup>
+      <CriteriaSubGroup agg_operator="EXIST" data_pk="0200019_1050031" comment="Наличие МСП 1050031 у других родителей" correlation="FAMILY">
+        <bool data_set="МСП" data_pk="1050031" compareoperator="EQ" comparevalue="true"/>
+        <bool data_set="ЮЗСФО" data_pk="0301004" compareoperator="EQ" comparevalue="true"/>
+      </CriteriaSubGroup>
+      
+      <!-- Проверка основных условий -->
+      <!-- Наличие ЛК 1003 -->
+      <bool data_set="TMP" data_pk="0301007_1003" compareoperator="EQ" comparevalue="true"/>
+      <!-- Количество детей в семье 3-4 -->
+      <number data_set="ЮЗСФО" data_pk="0300008" compareoperator="GE" comparevalue="3"/>
+      <number data_set="ЮЗСФО" data_pk="0300008" compareoperator="LE" comparevalue="4"/>
+      <!-- Другие родители семьи не получают таких МСП -->
+      <bool data_set="TMP" data_pk="0200019_1050031" compareoperator="EQ" comparevalue="false"/>
+    </CriteriaGroup>
+  </CriteriaSet>
+
+</CriteriaSetList>
+
